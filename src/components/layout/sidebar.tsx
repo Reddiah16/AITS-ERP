@@ -75,6 +75,9 @@ const menuGroups: MenuGroup[] = [
       { label: "Departments", page: "departments", icon: <Building2 className="size-4" />, roles: ["super_admin", "admin", "hod"] },
       { label: "Subjects", page: "subjects", icon: <BookOpen className="size-4" />, roles: ["super_admin", "admin", "hod", "faculty"] },
       { label: "Attendance", page: "attendance", icon: <CalendarCheck className="size-4" />, roles: ["super_admin", "admin", "hod", "faculty", "student"] },
+      { label: "Academic Calendar", page: "academic-calendar", icon: <Calendar className="size-4" />, roles: ["super_admin", "admin", "hod", "faculty", "student"] },
+      { label: "Timetable", page: "timetable", icon: <CalendarCheck className="size-4" />, roles: ["super_admin", "admin", "hod", "faculty", "student"] },
+      { label: "Semester Registration", page: "semester-registration", icon: <GraduationCap className="size-4" />, roles: ["super_admin", "admin", "hod", "student"] },
     ],
   },
   {
@@ -90,6 +93,7 @@ const menuGroups: MenuGroup[] = [
       { label: "Internal Marks", page: "marks", icon: <ClipboardList className="size-4" />, roles: ["super_admin", "admin", "hod", "faculty", "student"] },
       { label: "Results & GPA", page: "results", icon: <Award className="size-4" />, roles: ["super_admin", "admin", "hod", "faculty", "student"] },
       { label: "Hall Tickets", page: "hall-tickets", icon: <Ticket className="size-4" />, roles: ["super_admin", "admin", "student"] },
+      { label: "Official Transcript", page: "transcript", icon: <FileText className="size-4" />, roles: ["super_admin", "admin", "student"] },
     ],
   },
   {

@@ -27,6 +27,10 @@ import { SettingsPage } from "@/components/dashboard/settings-page"
 import { HodManagementPage } from "@/components/dashboard/hod-management-page"
 import { AiAnalyticsPage } from "@/components/dashboard/ai-analytics-page"
 import { AiAssistantPage } from "@/components/dashboard/ai-assistant-page"
+import { AcademicCalendarPage } from "@/components/dashboard/academic-calendar-page"
+import { TimetablePage } from "@/components/dashboard/timetable-page"
+import { SemesterRegistrationPage } from "@/components/dashboard/semester-registration-page"
+import { TranscriptPage } from "@/components/dashboard/transcript-page"
 
 
 function PageContent() {
@@ -50,6 +54,10 @@ function PageContent() {
     case "gallery": return <GalleryPage />
     case "ai-analytics": return <AiAnalyticsPage />
     case "ai-assistant": return <AiAssistantPage />
+    case "academic-calendar": return <AcademicCalendarPage />
+    case "timetable": return <TimetablePage />
+    case "semester-registration": return <SemesterRegistrationPage />
+    case "transcript": return <TranscriptPage />
     case "users": return <UsersPage />
     case "reports": return <ReportsPage />
     case "audit-logs": return <AuditLogsPage />

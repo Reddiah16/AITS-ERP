@@ -55,6 +55,7 @@ model Department {
   programs    Program[]
   subjects    Subject[]
   gallery     GalleryImage[]
+  timetableSlots TimetableSlot[]
 }
 
 model Program {
@@ -86,6 +87,7 @@ model Subject {
   faculty      Faculty?     @relation("FacultySubjects", fields: [facultyId], references: [id])
   attendance   Attendance[]
   internalMarks InternalMark[]
+  timetableSlots TimetableSlot[]
 }
 
 model Student {
@@ -124,6 +126,7 @@ model Student {
   studentPredictions StudentPrediction[]
   placementPredictions PlacementPrediction[]
   attendanceAnalytics AttendanceAnalytic[]
+  semesterRegistrations SemesterRegistration[]
 }
 
 model Faculty {
@@ -150,6 +153,7 @@ model Faculty {
   subjects        Subject[]    @relation("FacultySubjects")
   markedAttendance Attendance[] @relation("AttendanceMarkedBy")
   enteredMarks    InternalMark[] @relation("MarksEnteredBy")
+  timetableSlots  TimetableSlot[]
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -464,4 +468,45 @@ model AttendanceAnalytic {
 
   student             Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
 }
+
+model AcademicCalendarEvent {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  type        String   // holiday, exam, festival, academic_start, etc.
+  createdAt   DateTime @default(now())
+}
+
+model TimetableSlot {
+  id           String   @id @default(cuid())
+  dayOfWeek    String   // monday, tuesday, etc.
+  startTime    String   // e.g. "09:00"
+  endTime      String   // e.g. "09:50"
+  subjectId    String
+  facultyId    String
+  classroom    String?
+  section      String?
+  semester     Int      @default(1)
+  departmentId String
+
+  subject      Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  faculty      Faculty    @relation(fields: [facultyId], references: [id], onDelete: Cascade)
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+}
+
+model SemesterRegistration {
+  id             String   @id @default(cuid())
+  studentId      String
+  semester       Int
+  academicYear   String   // e.g. "2024-25"
+  status         String   @default("pending") // pending, approved, rejected
+  registeredAt   DateTime @default(now())
+
+  student        Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, semester, academicYear])
+}
+
 

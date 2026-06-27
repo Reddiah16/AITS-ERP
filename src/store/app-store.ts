@@ -11,6 +11,9 @@ export type PageName =
   | "departments"
   | "subjects"
   | "attendance"
+  | "academic-calendar"
+  | "timetable"
+  | "semester-registration"
   // Communication
   | "notifications"
   | "circulars"
@@ -18,6 +21,7 @@ export type PageName =
   | "marks"
   | "results"
   | "hall-tickets"
+  | "transcript"
   // Placement
   | "placement"
   // Library
