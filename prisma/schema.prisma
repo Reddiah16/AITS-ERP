@@ -127,6 +127,8 @@ model Student {
   placementPredictions PlacementPrediction[]
   attendanceAnalytics AttendanceAnalytic[]
   semesterRegistrations SemesterRegistration[]
+  interviews        InterviewSchedule[]
+  offers            OfferLetter[]
 }
 
 model Faculty {
@@ -308,6 +310,8 @@ model PlacementDrive {
 
   company       Company                @relation(fields: [companyId], references: [id], onDelete: Cascade)
   applications  PlacementApplication[]
+  interviews    InterviewSchedule[]
+  offers        OfferLetter[]
 }
 
 model PlacementApplication {
@@ -508,5 +512,56 @@ model SemesterRegistration {
 
   @@unique([studentId, semester, academicYear])
 }
+
+model TrainingProgram {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  trainer     String?
+  status      String   @default("upcoming") // upcoming, active, completed
+  createdAt   DateTime @default(now())
+}
+
+model Internship {
+  id          String   @id @default(cuid())
+  title       String
+  companyName String
+  description String?
+  duration    String?  // e.g. "6 Months"
+  stipend     String?
+  deadline    DateTime?
+  status      String   @default("open")
+  createdAt   DateTime @default(now())
+}
+
+model InterviewSchedule {
+  id          String   @id @default(cuid())
+  studentId   String
+  driveId     String
+  date        DateTime
+  mode        String   @default("online") // online, offline
+  location    String?  // link or room number
+  status      String   @default("scheduled") // scheduled, completed, cancelled
+  createdAt   DateTime @default(now())
+
+  student     Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  drive       PlacementDrive @relation(fields: [driveId], references: [id], onDelete: Cascade)
+}
+
+model OfferLetter {
+  id          String   @id @default(cuid())
+  studentId   String
+  driveId     String
+  fileUrl     String
+  ctc         String?
+  status      String   @default("issued") // issued, accepted, declined
+  issuedDate  DateTime @default(now())
+
+  student     Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  drive       PlacementDrive @relation(fields: [driveId], references: [id], onDelete: Cascade)
+}
+
 
 
