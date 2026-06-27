@@ -52,6 +52,16 @@ export const login = async (req: Request, res: Response) => {
       data: { refreshToken }
     })
 
+    // Log the login history
+    await prisma.loginHistory.create({
+      data: {
+        userId: user.id,
+        ipAddress: req.ip || req.socket.remoteAddress,
+        userAgent: req.headers["user-agent"],
+        device: req.headers["sec-ch-ua-platform"]?.toString() || "Unknown"
+      }
+    })
+
     // Log the audit event
     await prisma.auditLog.create({
       data: {

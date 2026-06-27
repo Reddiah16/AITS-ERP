@@ -34,6 +34,7 @@ model User {
   auditLogs        AuditLog[]
   issuedCirculars  Circular[]             @relation("CircularIssuedBy")
   sentNotifications Notification[]        @relation("NotificationCreatedBy")
+  loginHistories   LoginHistory[]
 }
 
 model Department {
@@ -564,5 +565,17 @@ model OfferLetter {
   student     Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
   drive       PlacementDrive @relation(fields: [driveId], references: [id], onDelete: Cascade)
 }
+
+model LoginHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  ipAddress String?
+  userAgent String?
+  device    String?
+  loginAt   DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 
 
