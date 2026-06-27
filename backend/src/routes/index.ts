@@ -6,6 +6,7 @@ import examRoutes from "./exam.routes"
 import placementRoutes from "./placement.routes"
 import libraryRoutes from "./library.routes"
 import galleryRoutes from "./gallery.routes"
+import reportRoutes from "./report.routes"
 
 const router = Router()
 
@@ -16,5 +17,6 @@ router.use("/exams", examRoutes)
 router.use("/placements", placementRoutes)
 router.use("/library", libraryRoutes)
 router.use("/gallery", galleryRoutes)
+router.use("/reports", reportRoutes)
 
 export default router
