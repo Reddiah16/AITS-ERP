@@ -1,0 +1,60 @@
+# ==============================================================================
+# AITS Rajampet College ERP & Department Management System
+# PROJECT REQUIREMENTS SPECIFICATION (END-TO-END)
+# ==============================================================================
+
+[1] AUTHENTICATION & SECURITY
+--------------------------------------------------------------------------------
+- JWT (JSON Web Tokens) Session Management
+- Password Hashing using bcrypt (salt rounds: 12)
+- Role-Based Access Control (RBAC) with 5 distinct roles:
+    * Super Admin (Highest access: HOD assignments, user management, audit logs)
+    * Admin (Operational settings, circulars, notifications, profile overrides)
+    * HOD (Department oversight, staff/student lists, syllabus management)
+    * Faculty (Bulk attendance marking, internal marks entries)
+    * Student (Grade sheets, personal attendance tracking, job drives application)
+- Security Safeguards:
+    * HTTPS Enforcement
+    * Server-side Registration Codes verification for HODs & Faculty
+    * Rate Limiting on authentication/API endpoints
+    * XSS, CSRF, and SQL Injection mitigations
+
+[2] REGISTRATION & APPROVAL WORKFLOW
+--------------------------------------------------------------------------------
+- Students: Self-registration allowed (auto-approved upon submitting valid roll numbers).
+- Faculty: Registration requires inputting valid admin-issued secret codes and manual Admin approval.
+- HODs: Registration requires inputting valid super-admin-issued secret codes and manual Super Admin approval.
+- Admin Accounts: Strictly created by Super Admins only.
+
+[3] CORE ERP MODULES (PHASE 1)
+--------------------------------------------------------------------------------
+- User Management: Add, edit, toggle status (Active/Inactive), and delete user accounts.
+- Department Management: Manage AITS departments (CSE, AIML, ECE, EEE, MECH, CIVIL) and associate HODs.
+- Student & Faculty Directories: Search, pagination, and department-wise filtering.
+- Attendance Tracking:
+    * Faculty bulk attendance input (Present / Absent / Late) for assigned subjects.
+    * Students view detailed attendance logs and warnings for attendance below 75%.
+- Academic Record Management: Subject configurations mapped by credits and semesters.
+- Communications: Circulars targeted to specific user roles or the entire college.
+
+[4] ADVANCED ERP MODULES (PHASE 2)
+--------------------------------------------------------------------------------
+- Examination Module:
+    * Mapped internal marks entries (Mid-1, Mid-2, assignment, lab).
+    * Semester Results sheet displaying GPA/SGPA calculations.
+    * Exam Hall Tickets retrieval page.
+- Placement Module:
+    * Manage active company profiles and placement drives.
+    * Student single-click application submissions.
+- Library Module:
+    * Standard book catalog indicating total vs. available quantities.
+    * Issue and return tracking with automatic overdue fine calculation (₹2 per day).
+- Gallery Module:
+    * Organized campus, sports, events, and department photo directories.
+
+[5] AI ANALYTICS ENGINE (PHASE 3)
+--------------------------------------------------------------------------------
+- AI Attendance Analytics: Predictions of low attendance risk and overall trend analysis.
+- AI Academic Analytics: Student failure risk detection and GPA forecasting.
+- AI Placement Analytics: Placement selection probability calculations and skill gap recommendations.
+- AI Support Chatbot: Natural language ERP help desk assistant for students and staff.
