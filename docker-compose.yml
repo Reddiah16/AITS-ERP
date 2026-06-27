@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: aits_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: aits_admin
+      POSTGRES_PASSWORD: AitsSecurePassword123
+      POSTGRES_DB: aits_erp_production
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: aits_erp_api_server
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: "postgresql://aits_admin:AitsSecurePassword123@postgres:5432/aits_erp_production?schema=public"
+      JWT_SECRET: "aits-jwt-super-secret-key-2024"
+      JWT_REFRESH_SECRET: "aits-jwt-refresh-super-secret-key-2024"
+      FACULTY_REGISTRATION_SECRET: "AITS_FAC_2024"
+      HOD_REGISTRATION_SECRET: "AITS_HOD_2024"
+      AI_SERVICE_URL: "http://ai-service:8000"
+      PORT: 5000
+    depends_on:
+      - postgres
+
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: aits_erp_ai_service
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: 8000
+      OPENAI_API_KEY: ""
+    volumes:
+      - ./ai-service/models:/usr/src/app/models
+
+volumes:
+  pgdata:
