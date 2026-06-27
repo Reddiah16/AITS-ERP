@@ -1,0 +1,46 @@
+name: AITS ERP Production CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v3
+        with:
+          node-dir: '18'
+          cache: 'npm'
+
+      - name: Install Root & Backend Dependencies
+        run: |
+          npm ci
+          cd backend && npm ci
+
+      - name: Run Prisma Schema Check
+        run: |
+          cd backend && npx prisma validate
+
+      - name: Build Express Backend Server
+        run: |
+          cd backend && npm run build
+
+      - name: Setup Python for AI Service
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install AI Service Requirements
+        run: |
+          cd ai-service && pip install -r requirements.txt
+
+      - name: Build Docker Containers (Dry-Run)
+        run: |
+          docker compose build
